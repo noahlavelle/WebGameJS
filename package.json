@@ -1,6 +1,7 @@
 {
-  "name": "babel-typescript-sample",
-  "version": "0.7.2",
+  "name": "webgame-js",
+  "main": "./lib/index.js",
+  "version": "0.0.6",
   "license": "MIT",
   "scripts": {
     "type-check": "tsc --noEmit",
@@ -8,8 +9,11 @@
     "build": "npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
-    "test": "jest"
+    "test": "jest",
+    "preversion": "npm test",
+    "postversion": "npm run build && npm publish"
   },
+  "files": ["lib/*.js", "lib/**/&.js"],
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
