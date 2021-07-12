@@ -1,5 +1,5 @@
 import EngineObject from './engineObject';
-import UpdateManager from '../logic/updateManager';
+import GameManager from '../logic/gameManager';
 
 export default class GameObject extends EngineObject {
     atttachedComponents: EngineObject[] = [];
@@ -7,19 +7,25 @@ export default class GameObject extends EngineObject {
     constructor() {
         super();
 
-        UpdateManager.updateEvent.on('tick', this.Update);
+        GameManager.updateEvent.on('tick', () => this.Update);
+        this.Update();
     }
 
-    // Instances a component and attaches it as a child to a GameObject. The component must be an EngineObject
-    AttachComponent(ctor: { new(): any }): any {
-        let component = new ctor();
+    // Instances a component and attaches it as a child to a GameObject
+    // The component must be an EngineObject
+    AttachComponent(Ctor: { new(): any }): any {
+        const component = new Ctor();
         if (component instanceof EngineObject) {
             this.atttachedComponents.push(component);
             return component;
         }
+
+        return null;
     }
 
     Update() {
-        console.log("Hello");
+        for (const component of this.atttachedComponents) {
+            component.transform = this.transform;
+        }
     }
 }
