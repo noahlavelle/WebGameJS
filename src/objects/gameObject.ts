@@ -1,13 +1,10 @@
 import EngineObject from './engineObject';
-import GameManager from '../logic/gameManager';
 
 export default class GameObject extends EngineObject {
     atttachedComponents: EngineObject[] = [];
 
     constructor() {
         super();
-
-        GameManager.updateEvent.on('tick', () => this.Update);
         this.Update();
     }
 

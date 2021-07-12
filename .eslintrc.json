@@ -23,7 +23,9 @@
         "eol-last": "off",
         "indent": ["error", 4],
         "no-param-reassign": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "no-shadow": "off",
+        "no-unused-vars": "warn"
     },
     "settings": {
         "import/resolver": {

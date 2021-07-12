@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 export default abstract class GameManager {
     public static updateEvent = new EventEmitter();
     private static canvas: HTMLCanvasElement;
-    public static ctx: CanvasRenderingContext2D | null | undefined;
+    public static ctx: CanvasRenderingContext2D;
 
     public static StartGame() {
         this.Tick();
@@ -11,7 +11,9 @@ export default abstract class GameManager {
 
     public static SetRenderingCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.ctx = canvas?.getContext('2d');
+        this.ctx = <CanvasRenderingContext2D>canvas?.getContext('2d');
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = 'high';
     }
 
     private static Tick() {
