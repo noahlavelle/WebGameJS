@@ -1,5 +1,4 @@
 import GameManager from '../logic/gameManager';
-import { BasicShapeType } from '../properties/BasicShapeProperties';
 import EngineObject from './engineObject';
 import { LightenDarkenColor } from '../utils/colorManipulation';
 
@@ -10,31 +9,30 @@ interface ShapeDimentions {
     y: number;
 }
 
+type BasicShapeType = 'circle' | 'square';
+type BasicShapeEffect = 'outline';
+
 export default class BasicShape extends EngineObject {
     private color: string = '#000000';
-    private strokeColor: string = '#000000'
-    shapeType: BasicShapeType;
-    shapeDimentions: ShapeDimentions;
+    private strokeColor: string = '#000000';
+    shapeType!: BasicShapeType;
+    shapeEffects: BasicShapeEffect[] = [];
+    shapeDimentions!: ShapeDimentions;
+    outlineWidth: number = 5;
 
-    constructor(shapeType: BasicShapeType, color: string,
-        shapeDimentions: ShapeDimentions) {
+    constructor() {
         super();
 
-        this.transform.position.x = shapeDimentions.x;
-        this.transform.position.y = shapeDimentions.y;
-        this.color = color;
         this.strokeColor = LightenDarkenColor(this.color, -60);
-        this.shapeType = shapeType;
-        this.shapeDimentions = shapeDimentions;
     }
 
     Update() {
         const { ctx } = GameManager;
         switch (this.shapeType) {
-        case BasicShapeType.Circle:
+        case 'circle':
             this.RenderCircle(ctx);
             break;
-        case BasicShapeType.Square:
+        case 'square':
             this.RenderSquare(ctx);
             break;
         default:
@@ -49,21 +47,57 @@ export default class BasicShape extends EngineObject {
             this.shapeDimentions.width / 2, 0, 2 * Math.PI, false);
         ctx.fillStyle = this.color;
         ctx.fill();
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = this.strokeColor;
-        ctx.stroke();
+        this.Stroke();
     }
 
     RenderSquare(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = this.color;
-        ctx.strokeStyle = this.strokeColor;
-        ctx.fillRect(this.transform.position.x, this.transform.position.y,
+        ctx.rect(this.transform.position.x - (this.shapeDimentions.width / 2),
+            this.transform.position.y - (this.shapeDimentions.height / 2),
             this.shapeDimentions.width, this.shapeDimentions.height);
+        ctx.fill();
+        this.Stroke();
+    }
+
+    Stroke() {
+        const { ctx } = GameManager;
+        if (this.shapeEffects.includes('outline')) {
+            ctx.lineWidth = this.outlineWidth;
+            ctx.strokeStyle = this.strokeColor;
+            ctx.stroke();
+        }
     }
 
     SetColor(color: string): BasicShape {
         this.color = color;
-        this.strokeColor = LightenDarkenColor(this.color, -60);
+        this.strokeColor = LightenDarkenColor(this.color, -70);
+        return this;
+    }
+
+    SetShape(shapeType: BasicShapeType): BasicShape {
+        this.shapeType = shapeType;
+        return this;
+    }
+
+    SetEffects(effects: BasicShapeEffect[]): BasicShape {
+        this.shapeEffects = effects;
+        return this;
+    }
+
+    AddEfect(effect: BasicShapeEffect): BasicShape {
+        this.shapeEffects.push(effect);
+        return this;
+    }
+
+    SetOutlineWidth(outlineWidth: number): BasicShape {
+        this.outlineWidth = outlineWidth;
+        return this;
+    }
+
+    SetDimentions(dimentions: ShapeDimentions): BasicShape {
+        this.transform.position.x = dimentions.x;
+        this.transform.position.y = dimentions.y;
+        this.shapeDimentions = dimentions;
         return this;
     }
 }
