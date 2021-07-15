@@ -1,3 +1,4 @@
+import { Vector2 } from '@graph-ts/vector2';
 import EngineObject from './engineObject';
 
 export default class GameObject extends EngineObject {
@@ -10,9 +11,9 @@ export default class GameObject extends EngineObject {
 
     // Instances a component and attaches it as a child to a GameObject
     // The component must be an EngineObject
-    AttachComponent(Ctor: { new(): any }): any {
-        const component = new Ctor();
+    AttachComponent(component: any): any {
         if (component instanceof EngineObject) {
+            component.rootObject = this;
             this.atttachedComponents.push(component);
             return component;
         }

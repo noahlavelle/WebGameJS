@@ -3,6 +3,7 @@ import GameObject from './objects/gameObject';
 import GameManager from './logic/gameManager';
 import BasicShape from './objects/basicShape';
 import Transform from './objects/transform';
+import InputManager from './logic/inputManager';
 
 /*
 Features to add:
@@ -21,4 +22,5 @@ export {
     GameManager,
     BasicShape,
     Transform,
+    InputManager,
 };
