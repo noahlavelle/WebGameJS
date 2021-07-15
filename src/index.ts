@@ -8,7 +8,6 @@ import InputManager from './logic/inputManager';
 /*
 Features to add:
     Collision & Raycasting
-    Input Manager
     Shape Effects
     SVG Colouring and outlines
     Physics

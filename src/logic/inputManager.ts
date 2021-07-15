@@ -1,4 +1,4 @@
-import { Vector2 } from '@graph-ts/vector2';
+import { normal, Vector2 } from '@graph-ts/vector2';
 import EngineObject from '../objects/engineObject';
 import InputAction from './inputAction';
 
@@ -30,24 +30,43 @@ export default class InputManager extends EngineObject {
 
     Update() {
         for (const action of this.actions) {
-            const actionStrengths: number[] = [
-                this.pressedKeys[action.keys[0]] ? 0 : 1,
-                this.pressedKeys[action.keys[1]] ? 0 : 1,
-                this.pressedKeys[action.keys[2]] ? 0 : 1,
-                this.pressedKeys[action.keys[3]] ? 0 : 1,
-            ];
-
-            const currentInputVector: Vector2 = this.activeInputs[action.methodName]
-                || { x: 0, y: 0 };
-            const inputVector: Vector2 = {
-                x: actionStrengths[2] - actionStrengths[3],
-                y: actionStrengths[0] - actionStrengths[1],
-            };
-
-            if (!(currentInputVector.x === inputVector.x
-                && currentInputVector.y === inputVector.y)) {
-                this.activeInputs[action.methodName] = inputVector;
-                this.rootObject[action.methodName](inputVector);
+            switch (action.valueType) {
+            case 'vector':
+                const actionStrengths: number[] = [
+                    this.pressedKeys[action.keys[0]] ? 1 : 0,
+                    this.pressedKeys[action.keys[1]] ? 1 : 0,
+                    this.pressedKeys[action.keys[2]] ? 1 : 0,
+                    this.pressedKeys[action.keys[3]] ? 1 : 0,
+                ];
+        
+                const currentInputVector: Vector2 = this.activeInputs[action.methodName]
+                        || { x: 0, y: 0 };
+                const inputVector: Vector2 = {
+                    x: actionStrengths[3] - actionStrengths[2],
+                    y: actionStrengths[1] - actionStrengths[0],
+                };
+        
+                if (!(currentInputVector.x === inputVector.x
+                        && currentInputVector.y === inputVector.y)) {
+                    this.activeInputs[action.methodName] = inputVector;
+                    this.rootObject[action.methodName](normal(inputVector));
+                }
+                break;
+            case 'scalar':
+                let actionStrength = 0;
+                for (const key of action.keys) {
+                    const keyStrength = this.pressedKeys[key] ? 1 : 0;
+                    actionStrength = keyStrength > actionStrength
+                        ? keyStrength : actionStrength;
+                }
+                
+                if (actionStrength !== this.activeInputs[action.methodName]) {
+                    this.activeInputs[action.methodName] = actionStrength;
+                    this.rootObject[action.methodName](actionStrength);
+                }
+                break;
+            default:
+                break;
             }
         }
     }

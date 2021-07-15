@@ -1,8 +1,12 @@
 {
   "name": "webgame-js",
   "main": "./lib/index.js",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoahLavelle/WebGameJS.git"
+  },
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",

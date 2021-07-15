@@ -18,7 +18,8 @@ export default abstract class GameManager {
 
     private static Tick() {
         this.SetNextTick(() => this.Tick());
-        this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.ctx.beginPath();
         this.updateEvent.emit('tick');
     }
 

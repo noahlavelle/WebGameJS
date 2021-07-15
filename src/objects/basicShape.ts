@@ -43,7 +43,8 @@ export default class BasicShape extends EngineObject {
 
     RenderCircle(ctx: CanvasRenderingContext2D) {
         ctx.beginPath();
-        ctx.arc(this.transform.position.x, this.transform.position.y,
+        ctx.arc(this.rootObject.transform.position.x + this.transform.position.x,
+            this.rootObject.transform.position.y + this.transform.position.y,
             this.shapeDimentions.width / 2, 0, 2 * Math.PI, false);
         ctx.fillStyle = this.color;
         ctx.fill();
@@ -52,8 +53,13 @@ export default class BasicShape extends EngineObject {
 
     RenderSquare(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = this.color;
-        ctx.rect(this.transform.position.x - (this.shapeDimentions.width / 2),
-            this.transform.position.y - (this.shapeDimentions.height / 2),
+        ctx.rect(
+            this.rootObject.transform.position.x
+            + this.transform.position.x
+            - (this.shapeDimentions.width / 2),
+            this.rootObject.transform.position.y
+            + this.transform.position.y
+            - (this.shapeDimentions.height / 2),
             this.shapeDimentions.width, this.shapeDimentions.height);
         ctx.fill();
         this.Stroke();
