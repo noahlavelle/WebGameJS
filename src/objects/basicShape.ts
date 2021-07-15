@@ -1,6 +1,7 @@
 import GameManager from '../logic/gameManager';
 import EngineObject from './engineObject';
 import { LightenDarkenColor } from '../utils/colorManipulation';
+import Camera from '../logic/camera';
 
 interface ShapeDimentions {
     width: number;
@@ -42,10 +43,24 @@ export default class BasicShape extends EngineObject {
     }
 
     RenderCircle(ctx: CanvasRenderingContext2D) {
+        const totalParallaxDepth = (this.parallaxDepth + this.rootObject.parallaxDepth) + 1;
+        const parallaxMultiplyer = totalParallaxDepth > 0
+            ? 1 / totalParallaxDepth
+            : 1 + (totalParallaxDepth / 10);
+
         ctx.beginPath();
-        ctx.arc(this.rootObject.transform.position.x + this.transform.position.x,
-            this.rootObject.transform.position.y + this.transform.position.y,
-            this.shapeDimentions.width / 2, 0, 2 * Math.PI, false);
+        ctx.arc(
+            (this.rootObject.transform.position.x + this.transform.position.x)
+            - (Camera.transform.position.x
+                * parallaxMultiplyer),
+            this.rootObject.transform.position.y + this.transform.position.y
+            - (Camera.transform.position.y
+                * parallaxMultiplyer),
+            this.shapeDimentions.width / 2,
+            0,
+            2 * Math.PI,
+            false,
+        );
         ctx.fillStyle = this.color;
         ctx.fill();
         this.Stroke();
@@ -56,11 +71,14 @@ export default class BasicShape extends EngineObject {
         ctx.rect(
             this.rootObject.transform.position.x
             + this.transform.position.x
-            - (this.shapeDimentions.width / 2),
+            - (this.shapeDimentions.width / 2)
+            - (Camera.transform.position.x - (GameManager.ctx.canvas.height / 2)),
             this.rootObject.transform.position.y
             + this.transform.position.y
-            - (this.shapeDimentions.height / 2),
-            this.shapeDimentions.width, this.shapeDimentions.height);
+            - (this.shapeDimentions.height / 2)
+            - (Camera.transform.position.y - (GameManager.ctx.canvas.height / 2)),
+            this.shapeDimentions.width, this.shapeDimentions.height,
+        );
         ctx.fill();
         this.Stroke();
     }

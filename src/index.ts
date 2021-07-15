@@ -4,9 +4,11 @@ import GameManager from './logic/gameManager';
 import BasicShape from './objects/basicShape';
 import Transform from './objects/transform';
 import InputManager from './logic/inputManager';
+import Camera from './logic/camera';
 
 /*
 Features to add:
+    Camera
     Collision & Raycasting
     Shape Effects
     SVG Colouring and outlines
@@ -22,4 +24,5 @@ export {
     BasicShape,
     Transform,
     InputManager,
+    Camera,
 };

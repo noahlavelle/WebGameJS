@@ -1,4 +1,3 @@
-import { Vector2 } from '@graph-ts/vector2';
 import EngineObject from './engineObject';
 
 export default class GameObject extends EngineObject {

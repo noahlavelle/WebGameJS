@@ -5,6 +5,7 @@ import Transform from './transform';
 // These can be children of other EngineObjects
 export default class EngineObject {
     transform: Transform = new Transform();
+    parallaxDepth: number = 0;
     // The EngineObject that signals are passed too (like when a collider detects a collision)
     rootObject: EngineObject = this;
 
