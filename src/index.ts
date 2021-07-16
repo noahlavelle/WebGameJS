@@ -8,13 +8,12 @@ import Camera from './logic/camera';
 
 /*
 Features to add:
-    Camera Interpolation
+    Shape deformation?
     Polygon Shape
-    Collision & Raycasting
+    Collision & Raycasting?
     Shape Effects
-    SVG Colouring and outlines
-    Physics
-    Easy way to move gameobjects
+    SVG Colouring and outlines?
+    Physics (Maybe)
     Networking
 */
 

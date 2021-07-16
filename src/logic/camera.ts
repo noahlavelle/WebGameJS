@@ -2,6 +2,7 @@ import { Vector2 } from '@graph-ts/vector2';
 import Transform from '../objects/transform';
 import EngineObject from '../objects/engineObject';
 import GameManager from './gameManager';
+import Lerp from '../utils/lerp';
 
 export default class Camera extends EngineObject {
     /*
@@ -25,17 +26,12 @@ export default class Camera extends EngineObject {
         };
 
         const newPosition: Vector2 = {
-            x: this.Lerp(this.transform.position.x,
+            x: Lerp(this.transform.position.x,
                 Camera.followTarget.position.x, Camera.lerpTime) - halfScreen.x,
-            y: this.Lerp(this.transform.position.y,
+            y: Lerp(this.transform.position.y,
                 Camera.followTarget.position.y, Camera.lerpTime) - halfScreen.y,
         };
 
         this.transform.position = Camera.transform.position = newPosition;
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    Lerp(start: number, end: number, t: number) {
-        return start * (1 - t) + end * t;
     }
 } 

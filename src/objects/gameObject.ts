@@ -1,4 +1,6 @@
+import { Vector2 } from '@graph-ts/vector2';
 import EngineObject from './engineObject';
+import Lerp from '../utils/lerp';
 
 export default class GameObject extends EngineObject {
     atttachedComponents: EngineObject[] = [];
@@ -18,6 +20,11 @@ export default class GameObject extends EngineObject {
         }
 
         return null;
+    }
+
+    Move(moveVector: Vector2, speed: number) {
+        this.transform.position.x += (moveVector.x * speed);
+        this.transform.position.y += (moveVector.y * speed);
     }
 
     Update() {
