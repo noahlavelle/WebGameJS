@@ -26,7 +26,8 @@
         "no-restricted-syntax": "off",
         "no-shadow": "off",
         "no-unused-vars": "warn",
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        "no-multi-assign": "off"
     },
     "settings": {
         "import/resolver": {

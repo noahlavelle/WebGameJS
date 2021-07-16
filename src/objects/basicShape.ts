@@ -43,11 +43,7 @@ export default class BasicShape extends EngineObject {
     }
 
     RenderCircle(ctx: CanvasRenderingContext2D) {
-        const totalParallaxDepth = (this.parallaxDepth + this.rootObject.parallaxDepth) + 1;
-        const parallaxMultiplyer = totalParallaxDepth > 0
-            ? 1 / totalParallaxDepth
-            : 1 + (totalParallaxDepth / 10);
-
+        const parallaxMultiplyer = this.CalculateParallaxMultiplyer();
         ctx.beginPath();
         ctx.arc(
             (this.rootObject.transform.position.x + this.transform.position.x)
@@ -67,20 +63,26 @@ export default class BasicShape extends EngineObject {
     }
 
     RenderSquare(ctx: CanvasRenderingContext2D) {
+        const parallaxMultiplyer = this.CalculateParallaxMultiplyer();
         ctx.fillStyle = this.color;
         ctx.rect(
-            this.rootObject.transform.position.x
-            + this.transform.position.x
-            - (this.shapeDimentions.width / 2)
-            - (Camera.transform.position.x - (GameManager.ctx.canvas.height / 2)),
-            this.rootObject.transform.position.y
-            + this.transform.position.y
-            - (this.shapeDimentions.height / 2)
-            - (Camera.transform.position.y - (GameManager.ctx.canvas.height / 2)),
+            (this.rootObject.transform.position.x + this.transform.position.x)
+            - (Camera.transform.position.x
+                * parallaxMultiplyer),
+            this.rootObject.transform.position.y + this.transform.position.y
+            - (Camera.transform.position.y
+                * parallaxMultiplyer),
             this.shapeDimentions.width, this.shapeDimentions.height,
         );
         ctx.fill();
         this.Stroke();
+    }
+
+    CalculateParallaxMultiplyer(): number {
+        const totalParallaxDepth = (this.parallaxDepth + this.rootObject.parallaxDepth) + 1;
+        return totalParallaxDepth > 0
+            ? 1 / totalParallaxDepth
+            : 1 + (totalParallaxDepth / 10);
     }
 
     Stroke() {

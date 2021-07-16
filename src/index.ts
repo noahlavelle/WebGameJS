@@ -8,7 +8,8 @@ import Camera from './logic/camera';
 
 /*
 Features to add:
-    Camera
+    Camera Interpolation
+    Polygon Shape
     Collision & Raycasting
     Shape Effects
     SVG Colouring and outlines
