@@ -18,7 +18,6 @@ Features to add:
 */
 
 export {
-    EngineObject,
     GameObject,
     GameManager,
     BasicShape,

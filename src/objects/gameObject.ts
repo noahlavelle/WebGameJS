@@ -1,6 +1,5 @@
 import { Vector2 } from '@graph-ts/vector2';
 import EngineObject from './engineObject';
-import Lerp from '../utils/lerp';
 
 export default class GameObject extends EngineObject {
     atttachedComponents: EngineObject[] = [];
@@ -10,16 +9,14 @@ export default class GameObject extends EngineObject {
         this.Update();
     }
 
-    // Instances a component and attaches it as a child to a GameObject
-    // The component must be an EngineObject
-    AttachComponent(component: any): any {
-        if (component instanceof EngineObject) {
-            component.rootObject = this;
-            this.atttachedComponents.push(component);
-            return component;
-        }
-
-        return null;
+    /**
+     * Instances a component and attaches it as a child to a GameObject
+     * @param component The component to attach
+     */
+    AttachComponent(component: EngineObject): EngineObject {
+        component.rootObject = this;
+        this.atttachedComponents.push(component);
+        return component;
     }
 
     Move(moveVector: Vector2, speed: number) {

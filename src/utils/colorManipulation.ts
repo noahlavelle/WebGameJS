@@ -1,7 +1,7 @@
-export function LightenDarkenColor(colorCode: string, amount: number) {
+export default function LightenDarkenColor(colorCode: string, amount: number) {
     let usePound = false;
 
-    if (colorCode[0] == "#") {
+    if (colorCode[0] === '#') {
         colorCode = colorCode.slice(1);
         usePound = true;
     }
@@ -30,7 +30,7 @@ export function LightenDarkenColor(colorCode: string, amount: number) {
         g = 0;
     }
     let color = (g | (b << 8) | (r << 16)).toString(16);
-    while (color.length < 6){
+    while (color.length < 6) {
         color = 0 + color;
     }
     return (usePound ? '#' : '') + color;

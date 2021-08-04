@@ -1,6 +1,6 @@
 import GameManager from '../logic/gameManager';
 import EngineObject from './engineObject';
-import { LightenDarkenColor } from '../utils/colorManipulation';
+import LightenDarkenColor from '../utils/colorManipulation';
 import Camera from '../logic/camera';
 
 interface ShapeDimentions {
@@ -13,6 +13,7 @@ interface ShapeDimentions {
 type BasicShapeType = 'circle' | 'square';
 type BasicShapeEffect = 'outline';
 
+// A component to render shapes. It can attached to a game object
 export default class BasicShape extends EngineObject {
     private color: string = '#000000';
     private strokeColor: string = '#000000';
@@ -45,6 +46,9 @@ export default class BasicShape extends EngineObject {
     RenderCircle(ctx: CanvasRenderingContext2D) {
         const parallaxMultiplyer = this.CalculateParallaxMultiplyer();
         ctx.beginPath();
+        
+        // Draws a circle at the objects cordinates.
+        // The camera position is offset from the corrds to create the scrolling effect.
         ctx.arc(
             (this.rootObject.transform.position.x + this.transform.position.x)
             - (Camera.transform.position.x
@@ -62,6 +66,8 @@ export default class BasicShape extends EngineObject {
         this.Stroke();
     }
 
+    // Draws a rect with the give width and height at the objects cordinates.
+    // The camera position is offset from the corrds to create the scrolling effect.
     RenderSquare(ctx: CanvasRenderingContext2D) {
         const parallaxMultiplyer = this.CalculateParallaxMultiplyer();
         ctx.fillStyle = this.color;
@@ -78,6 +84,7 @@ export default class BasicShape extends EngineObject {
         this.Stroke();
     }
 
+    // Returns a multiplyer that is representative of the value on the virtual Z axis
     CalculateParallaxMultiplyer(): number {
         const totalParallaxDepth = (this.parallaxDepth + this.rootObject.parallaxDepth) + 1;
         return totalParallaxDepth > 0
@@ -94,6 +101,7 @@ export default class BasicShape extends EngineObject {
         }
     }
 
+    // These are all here for function chaining. They allow you to set properties easily
     SetColor(color: string): BasicShape {
         this.color = color;
         this.strokeColor = LightenDarkenColor(this.color, -70);

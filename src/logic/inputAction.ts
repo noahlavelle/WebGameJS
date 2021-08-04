@@ -1,5 +1,6 @@
 type ValueType = 'vector' | 'scalar';
 
+// Stores the data in the JSON "input actions" file that has been loaded
 export default class InputAction {
     keys: string[];
     methodName: string;

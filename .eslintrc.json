@@ -27,7 +27,8 @@
         "no-shadow": "off",
         "no-unused-vars": "warn",
         "no-case-declarations": "off",
-        "no-multi-assign": "off"
+        "no-multi-assign": "off",
+        "no-bitwise": "off"
     },
     "settings": {
         "import/resolver": {
